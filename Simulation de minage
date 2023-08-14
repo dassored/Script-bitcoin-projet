@@ -1,0 +1,28 @@
+import hashlib
+import random
+
+# Paramètres de la simulation
+target_prefix = "0000"  # Un exemple de condition de minage
+max_nonce = 1000000     # Limite de nombre d'essais
+
+# Données de base pour la simulation (bloc préalable)
+previous_block_hash = "00000000000000000000000000000000"
+transaction_data = "Transaction data here"
+
+# Simulation de minage
+def simulate_mining(target_prefix, previous_block_hash, transaction_data, max_nonce):
+    for nonce in range(max_nonce):
+        data = f"{previous_block_hash}{transaction_data}{nonce}"
+        hash_attempt = hashlib.sha256(data.encode()).hexdigest()
+        if hash_attempt[:len(target_prefix)] == target_prefix:
+            return nonce, hash_attempt
+    return None, None
+
+# Exécution de la simulation
+nonce, hash_result = simulate_mining(target_prefix, previous_block_hash, transaction_data, max_nonce)
+
+if nonce is not None and hash_result is not None:
+    print(f"Minage réussi ! Nonce trouvé : {nonce}")
+    print(f"Hachage résultant : {hash_result}")
+else:
+    print("Minage échoué. Ajustez les paramètres ou augmentez max_nonce.")
