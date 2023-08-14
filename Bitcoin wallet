@@ -1,0 +1,17 @@
+from bitcoinlib.wallets import Wallet
+
+# Créez un nouveau portefeuille
+wallet = Wallet.create('wallet_file', keys=1)  # 'wallet_file' est le nom du fichier de portefeuille
+
+# Générez une nouvelle adresse Bitcoin
+address = wallet.get_key().address
+
+print("Adresse Bitcoin générée:", address)
+
+# Affiche le solde
+balance = wallet.balance()
+print("Solde du portefeuille:", balance)
+
+# Créez et signez une transaction (simulation, ne fonctionnera pas sur le réseau Bitcoin réel)
+transaction = wallet.send_to(address, amount=0.001)  # Envoyer 0.001 BTC à l'adresse générée
+print("Transaction signée:", transaction)
