@@ -1,0 +1,21 @@
+import requests
+import matplotlib.pyplot as plt
+
+# Obtenir les données historiques de prix de Bitcoin
+response = requests.get("https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=30")
+data = response.json()
+prices = [entry[1] for entry in data['prices']]
+timestamps = [entry[0] for entry in data['prices']]
+
+# Créer le graphique
+plt.figure(figsize=(10, 6))
+plt.plot(timestamps, prices, label='Prix de Bitcoin (USD)')
+plt.xlabel('Date')
+plt.ylabel('Prix en USD')
+plt.title('Tendance de prix de Bitcoin au fil du temps')
+plt.xticks(rotation=45)
+plt.legend()
+plt.tight_layout()
+
+# Afficher le graphique
+plt.show()
