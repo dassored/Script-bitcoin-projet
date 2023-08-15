@@ -1,0 +1,37 @@
+from web3 import Web3
+
+# Se connecter à un nœud Ethereum local (ou distant)
+w3 = Web3(Web3.HTTPProvider('http://localhost:8545'))
+
+# Adresse du contrat et ABI (Application Binary Interface)
+contract_address = '0xYourContractAddress'
+contract_abi = [
+    # ... Définition de l'ABI de votre contrat ...
+]
+
+# Charger le contrat
+contract = w3.eth.contract(address=contract_address, abi=contract_abi)
+
+def verify_certificate(certificate_hash):
+    """Vérifie la validité d'un certificat en utilisant son hachage sur la blockchain."""
+    try:
+        tx_hash = contract.functions.verifyCertificate(certificate_hash).transact()
+        tx_receipt = w3.eth.waitForTransactionReceipt(tx_hash)
+        verified = contract.events.CertificateVerified().processReceipt(tx_receipt)
+        return verified[0]['args']['verified']
+    except:
+        return False
+
+def main():
+    # Supposons que le hachage du certificat est connu
+    certificate_hash = "0xYourCertificateHash"
+
+    is_verified = verify_certificate(certificate_hash)
+
+    if is_verified:
+        print("Le certificat est vérifié.")
+    else:
+        print("Le certificat n'a pas pu être vérifié.")
+
+if __name__ == "__main__":
+    main()
